@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Invitación · DeI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Pinyon+Script&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3ead9;
+      --beige: #e6d6b8;
+      --beige-dark: #d4bf99;
+      --beige-light: #efe3cb;
+      --ink: #5a4630;
+      --gold1: #f5dd8c;
+      --gold2: #c99a2e;
+      --gold3: #8a6414;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      margin: 0
+    }
+
+    body.locked {
+      overflow: hidden
+    }
+
+    .script {
+      font-family: 'Pinyon Script', 'Brush Script MT', cursive
+    }
+
+    #intro {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .8s ease
+    }
+
+    #intro.out {
+      opacity: 0;
+      pointer-events: none
+    }
+
+    #env {
+      --w: min(88vw, 360px);
+      position: relative;
+      width: var(--w);
+      height: calc(var(--w)*.68);
+      perspective: 900px;
+      animation: enter 1s ease both;
+      transition: transform 1s cubic-bezier(.6, 0, .8, .4)
+    }
+
+    #env.leave {
+      transform: translateY(120vh)
+    }
+
+    @keyframes enter {
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .back {
+      position: absolute;
+      inset: 0;
+      background: var(--beige-dark);
+      border-radius: 4px;
+      box-shadow: 0 20px 40px rgba(90, 70, 48, .25)
+    }
+
+    .letter {
+      position: absolute;
+      left: 6%;
+      right: 6%;
+      top: 6%;
+      bottom: 6%;
+      background: #fffaf0;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .9s ease .5s;
+      z-index: 1
+    }
+
+    #env.open .letter {
+      transform: translateY(-55%)
+    }
+
+    .pocket {
+      position: absolute;
+      inset: 0;
+      background: var(--beige);
+      z-index: 2;
+      border-radius: 4px;
+      clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%)
+    }
+
+    .flap {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 58%;
+      z-index: 4;
+      transform-origin: top;
+      transition: transform .8s ease, z-index 0s .4s;
+      background: var(--beige-light);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-style: preserve-3d
+    }
+
+    #env.open .flap {
+      transform: rotateX(180deg);
+      z-index: 0;
+      background: var(--beige-dark)
+    }
+
+    .flap .ini {
+      position: absolute;
+      top: 14%;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 2.2rem;
+      font-size: calc(var(--w)*.15);
+      color: var(--gold3);
+      font-weight: 600;
+      transition: opacity .3s
+    }
+
+    #env.open .flap .ini {
+      opacity: 0
+    }
+
+    /* sello */
+    #seal {
+      position: absolute;
+      left: 50%;
+      top: 58%;
+      width: 76px;
+      height: 76px;
+      margin: -38px 0 0 -38px;
+      z-index: 6;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, var(--gold1), var(--gold2) 60%, var(--gold3));
+      box-shadow: 0 4px 10px rgba(0, 0, 0, .35), inset 0 0 0 4px rgba(255, 235, 160, .35), inset 0 -3px 6px rgba(90, 60, 5, .4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2.2s ease-in-out infinite;
+      transition: transform .7s cubic-bezier(.5, 0, .9, .5), opacity .7s
+    }
+
+    #seal.drop {
+      animation: none;
+      transform: translateY(260px) rotate(40deg);
+      opacity: 0
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        filter: brightness(1)
+      }
+
+      50% {
+        transform: scale(1.07);
+        filter: brightness(1.18)
+      }
+    }
+
+    #seal svg,
+    #seal img {
+      width: 34px;
+      height: 34px
+    }
+
+    #seal img {
+      object-fit: contain;
+      filter: brightness(0) invert(.32) sepia(1) saturate(4) hue-rotate(5deg)
+    }
+
+    /* tono dorado oscuro */
+    #seal span {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .5px;
+      color: var(--gold3);
+      margin-top: -1px
+    }
+
+    .hint {
+      position: absolute;
+      bottom: -44px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: .95rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      opacity: .7;
+      transition: opacity .3s
+    }
+
+    #env.open .hint {
+      opacity: 0
+    }
+
+    .reveal {
+      animation: fade 1.2s ease both
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+  </style>
+</head>
+
+<body class="locked">
+
+  <div id="intro">
+    <div id="env">
+      <div class="back"></div>
+      <div class="letter"><span class="script text-3xl" style="color:var(--gold3)">DeI</span></div>
+      <div class="pocket"></div>
+      <div class="flap">
+        <div class="ini"><span>D</span><span>I</span></div>
+      </div>
+      <button id="seal" aria-label="Abrir invitación"></button>
+      <div class="hint">Toca el sello</div>
+    </div>
+  </div>
+
+  <main class="min-h-screen flex flex-col items-center justify-center text-center px-6 py-16 gap-6">
+    <p class="uppercase tracking-[.3em] text-sm reveal">Te invitamos a celebrar</p>
+    <h1 class="script text-7xl md:text-8xl reveal" style="color:var(--gold3)">D <span class="text-4xl">&amp;</span> I
+    </h1>
+    <div class="w-24 h-px" style="background:var(--gold2)"></div>
+    <p class="text-2xl reveal">Sábado, 00 de mes de 2026</p>
+    <p class="text-xl opacity-80 reveal">Lugar del evento · Ciudad</p>
+    <a href="#" class="mt-4 px-8 py-3 rounded-full text-white tracking-widest uppercase text-sm"
+      style="background:linear-gradient(135deg,var(--gold2),var(--gold3))">Confirmar asistencia</a>
+  </main>
+
+  <script>
+    // Pon aquí la ruta de tu imagen (PNG/SVG con fondo transparente). Si lo dejas vacío, usa la vid dibujada.
+    const SEAL_IMG = "";
+
+    const VINE_SVG = `<svg viewBox="0 0 48 48" fill="none" stroke="#8a6414" stroke-width="2" stroke-linecap="round">
+    <path d="M24 44V22M24 22c-6-2-9-7-8-12M24 30c6-2 9-6 9-11"/>
+    <path d="M16 10c4 0 7 3 8 7M33 19c-4-1-7 1-9 5" fill="#8a6414" fill-opacity=".25"/>
+    <circle cx="20" cy="32" r="3" fill="#8a6414"/><circle cx="27" cy="33" r="3" fill="#8a6414"/>
+    <circle cx="23" cy="38" r="3" fill="#8a6414"/></svg>`;
+
+    const seal = document.getElementById('seal');
+    seal.innerHTML = (SEAL_IMG ? `<img src="${SEAL_IMG}" alt="">` : VINE_SVG) + '<span>DeI</span>';
+
+    const env = document.getElementById('env'),
+      intro = document.getElementById('intro');
+    let started = false;
+    seal.addEventListener('click', () => {
+      if (started) return;
+      started = true;
+      seal.classList.add('drop'); // cae el sello
+      setTimeout(() => env.classList.add('open'), 450); // se abre la solapa y sube la carta
+      setTimeout(() => env.classList.add('leave'), 1900); // el sobre se va
+      setTimeout(() => {
+        intro.classList.add('out');
+        document.body.classList.remove('locked');
+      }, 2300);
+      setTimeout(() => intro.remove(), 3200);
+    });
+  </script>
+</body>
+
+</html>

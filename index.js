@@ -1,21 +1,3 @@
-tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            crema: '#F4EFE6',
-            sepia: '#B89B72',
-            cafeOscuro: '#3E2A1E',
-            dorado: '#D4AF37',
-          },
-          fontFamily: {
-            clasica: ['"Cormorant Garamond"', 'serif'],
-            cursiva: ['"Great Vibes"', 'cursive'],
-          }
-        }
-      }
-    }
-
-
 document.addEventListener('DOMContentLoaded', () => {
   /* =========================================
      LÓGICA DEL CARRUSEL (Autoplay, Dots y Swipe)
@@ -26,14 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentIndex = 0;
   let slideInterval;
   
-  // Variables para detectar el arrastre
   let startX = 0;
   let endX = 0;
 
   // 1. Generar los puntos (dots)
   images.forEach((_, index) => {
     const dot = document.createElement('button');
-    dot.className = `w-2.5 h-2.5 rounded-full transition-colors duration-300 ${index === 0 ? 'bg-crema' : 'bg-crema/50'}`;
+    dot.className = `w-2 h-2 rounded-full transition-colors duration-300 ${index === 0 ? 'bg-crema' : 'bg-crema/40'}`;
     dot.onclick = () => {
       goToSlide(index);
       resetInterval();
@@ -43,21 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const dots = dotsContainer.querySelectorAll('button');
 
-  // 2. Función para cambiar de slide
   function goToSlide(index) {
     currentIndex = index;
     carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     dots.forEach((dot, i) => {
-      dot.className = `w-2.5 h-2.5 rounded-full transition-colors duration-300 ${i === index ? 'bg-crema' : 'bg-crema/50'}`;
+      dot.className = `w-2 h-2 rounded-full transition-colors duration-300 ${i === index ? 'bg-crema' : 'bg-crema/40'}`;
     });
   }
 
-  // 3. Lógica de Autoplay
   function startInterval() {
     slideInterval = setInterval(() => {
       let nextIndex = (currentIndex + 1) % images.length;
       goToSlide(nextIndex);
-    }, 3000);
+    }, 3500);
   }
 
   function resetInterval() {
@@ -65,35 +44,30 @@ document.addEventListener('DOMContentLoaded', () => {
     startInterval();
   }
 
-  // 4. Lógica de Deslizamiento (Swipe)
   function handleSwipe() {
-    const umbral = 50; // Distancia mínima en píxeles para considerar que fue un arrastre
+    const umbral = 50;
     const diferencia = startX - endX;
 
     if (diferencia > umbral) {
-      // Arrastró hacia la izquierda -> Siguiente foto
       let nextIndex = (currentIndex + 1) % images.length;
       goToSlide(nextIndex);
     } else if (diferencia < -umbral) {
-      // Arrastró hacia la derecha -> Foto anterior
       let prevIndex = (currentIndex - 1 + images.length) % images.length;
       goToSlide(prevIndex);
     }
   }
 
-  // Eventos para Celulares (Touch)
   carouselInner.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
-    clearInterval(slideInterval); // Pausar autoplay al tocar
+    clearInterval(slideInterval);
   });
 
   carouselInner.addEventListener('touchend', (e) => {
     endX = e.changedTouches[0].clientX;
     handleSwipe();
-    startInterval(); // Reanudar autoplay
+    startInterval();
   });
 
-  // Eventos para Computadora (Mouse)
   carouselInner.addEventListener('mousedown', (e) => {
     startX = e.clientX;
     clearInterval(slideInterval);
@@ -105,42 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
     startInterval();
   });
 
-  // Iniciar el carrusel
   startInterval();
 });
-
-/* =========================================
-   LÓGICA DEL CALENDARIO (.ICS)
-   ========================================= */
-function descargarCalendario() {
-  const icsContent = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Invitacion Boda//ES",
-    "BEGIN:VEVENT",
-    "UID:" + new Date().getTime() + "@tudominio.com",
-    "DTSTAMP:20260911T000000Z",
-    "DTSTART:20261205T190000Z", 
-    "DTEND:20261205T210000Z",   
-    "SUMMARY:Boda (Ceremonia)",
-    "DESCRIPTION:Acompáñanos en nuestra ceremonia.",
-    "LOCATION:Hacienda de la Realeza, Centro Histórico",
-    "END:VEVENT",
-    "END:VCALENDAR"
-  ].join("\r\n");
-
-  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  
-  a.href = url;
-  a.download = 'ceremonia_boda.ics';
-  document.body.appendChild(a);
-  a.click();
-  
-  document.body.removeChild(a);
-  window.URL.revokeObjectURL(url);
-}
 
 /* =========================================
    LÓGICA DE LOS CONTADORES
@@ -149,13 +89,13 @@ function iniciarContadores() {
   // Fecha límite de confirmación: 15 de Noviembre 2026, 14:00 hrs
   const fechaLimite = new Date("Nov 15, 2026 14:00:00").getTime();
   
-  // Fecha del evento: 6 de Diciembre 2026, 14:00 hrs
-  const fechaEvento = new Date("Dec 6, 2026 14:00:00").getTime();
+  // Fecha del evento: 7 de Diciembre 2026, 13:00 hrs
+  const fechaEvento = new Date("Dec 7, 2026 13:00:00").getTime();
 
   setInterval(() => {
     const ahora = new Date().getTime();
 
-    // 1. CÁLCULO CONTADOR LÍMITE (RSVP)
+    // 1. Contador Límite (RSVP)
     const difLimite = fechaLimite - ahora;
     if (difLimite > 0) {
       document.getElementById("lim-dias").innerText = Math.floor(difLimite / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
@@ -167,17 +107,16 @@ function iniciarContadores() {
       document.getElementById("lim-min").innerText = "00";
     }
 
-    // 2. CÁLCULO CONTADOR EVENTO (Permite negativos)
+    // 2. Contador Evento (Soporta negativos si ya pasó)
     const difEvento = fechaEvento - ahora;
     const esNegativo = difEvento < 0;
-    const absDif = Math.abs(difEvento); // Usamos valor absoluto para que la matemática no se rompa al pasar a negativo
+    const absDif = Math.abs(difEvento);
 
     const diasEv = Math.floor(absDif / (1000 * 60 * 60 * 24));
     const horasEv = Math.floor((absDif % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minEv = Math.floor((absDif % (1000 * 60 * 60)) / (1000 * 60));
     const segEv = Math.floor((absDif % (1000 * 60)) / 1000);
 
-    // Si ya pasó la fecha, le agregamos el signo de menos (-) a los días
     const signo = esNegativo ? "-" : "";
 
     document.getElementById("ev-dias").innerText = signo + diasEv.toString().padStart(2, '0');
@@ -185,10 +124,76 @@ function iniciarContadores() {
     document.getElementById("ev-min").innerText = minEv.toString().padStart(2, '0');
     document.getElementById("ev-seg").innerText = segEv.toString().padStart(2, '0');
 
-  }, 1000); // Se actualiza cada segundo
+  }, 1000);
 }
 
-// Iniciar los cronómetros cuando cargue la página
 document.addEventListener('DOMContentLoaded', () => {
   iniciarContadores();
 });
+
+/* =========================================
+   LÓGICA DEL CALENDARIO (.ICS)
+   ========================================= */
+function descargarCalendario() {
+  // 7 de Diciembre 2026, 13:00 hrs locales (Oaxaca CST = UTC-6 -> 19:00 UTC)
+  const icsContent = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Invitacion Boda Diego e Itzel//ES",
+    "BEGIN:VEVENT",
+    "UID:" + new Date().getTime() + "@bodadiegoitzel.com",
+    "DTSTAMP:20261001T000000Z",
+    "DTSTART:20261207T190000Z", 
+    "DTEND:20261207T220000Z",   
+    "SUMMARY:Boda - Diego e Itzel",
+    "DESCRIPTION:¡Acompáñanos a celebrar nuestra boda!",
+    "LOCATION:Ocotlán de Morelos, Oax.",
+    "END:VEVENT",
+    "END:VCALENDAR"
+  ].join("\r\n");
+
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  
+  a.href = url;
+  a.download = 'Boda_Diego_Itzel.ics';
+  document.body.appendChild(a);
+  a.click();
+  
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+}
+
+/* =========================================
+   LÓGICA DE LA ANIMACIÓN DEL SOBRE (Intro)
+   ========================================= */
+const seal = document.getElementById('seal');
+const env = document.getElementById('env');
+const intro = document.getElementById('intro');
+let introStarted = false;
+
+if (seal && env && intro) {
+  seal.addEventListener('click', () => {
+    if (introStarted) return;
+    introStarted = true;
+    
+    // 1. Cae el sello
+    seal.classList.add('drop'); 
+    
+    // 2. Abre solapa y saca carta
+    setTimeout(() => env.classList.add('open'), 450); 
+    
+    // 3. Sube el sobre hacia arriba para salir
+    setTimeout(() => env.classList.add('leave'), 1900); 
+    
+    // 4. Desaparece el fondo oscuro y desbloquea el scroll
+    setTimeout(() => {
+      intro.classList.add('out');
+      document.body.classList.remove('locked'); 
+    }, 2300);
+    
+    // 5. Borra el intro del HTML para no estorbar clics
+    setTimeout(() => intro.remove(), 3200); 
+  });
+}
