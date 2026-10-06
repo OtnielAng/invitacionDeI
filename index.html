@@ -9,7 +9,10 @@
     <!-- Google Fonts: Fleur De Leah (Cursiva Real) & Charis SIL (Textos Legibles y Sobrios) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400&family=Mea+Culpa&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400&family=Mea+Culpa&display=swap"
+        rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
     <!-- Script de Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -31,67 +34,7 @@
         }
     </script>
 
-   <style>
-        /* Textura de papel antiguo sutil */
-        .bg-textura {
-            background-color: #F4EFE6;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
-        }
-        
-        /* Animaciones minimalistas de aparición (Fade Up) */
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- VARIABLES Y ESTILOS DEL SOBRE --- */
-        :root {
-            --bg-intro: #d1d5db; /* Color gris de fondo para fusionarse */
-            --beige: #F4EFE6; /* Tu Crema */
-            --beige-dark: #e6decb; /* Crema oscuro */
-            --beige-light: #fcfbfa; /* Crema muy claro */
-            --ink: #3E2A1E; /* Tu Cafe Oscuro */
-            --gold1: #e6cd98; /* Dorado claro */
-            --gold2: #C5A059; /* Tu Dorado base */
-            --gold3: #A38A68; /* Tu Sepia */
-        }
-
-        body.locked { overflow: hidden; }
-
-        #intro { position: fixed; inset: 0; z-index: 100; background: var(--bg-intro); display: flex; align-items: center; justify-content: center; transition: opacity 0.8s ease; }
-        #intro.out { opacity: 0; pointer-events: none; }
-
-        #env { --w: min(88vw, 360px); position: relative; width: var(--w); height: calc(var(--w)*0.68); perspective: 900px; animation: enter 1s ease both; transition: transform 1s cubic-bezier(.6, 0, .8, .4); }
-        #env.leave { transform: translateY(120vh); }
-
-        @keyframes enter { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
-
-        .back { position: absolute; inset: 0; background: var(--beige-dark); border-radius: 4px; box-shadow: 0 20px 40px rgba(62, 42, 30, .25); }
-        .letter { position: absolute; left: 6%; right: 6%; top: 6%; bottom: 6%; background: #ffffff; border-radius: 3px; display: flex; align-items: center; justify-content: center; transition: transform 0.9s ease 0.5s; z-index: 1; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
-        #env.open .letter { transform: translateY(-55%); }
-
-        .pocket { position: absolute; inset: 0; background: var(--beige); z-index: 2; border-radius: 4px; clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%); }
-        .flap { position: absolute; left: 0; top: 0; width: 100%; height: 58%; z-index: 4; transform-origin: top; transition: transform 0.8s ease, z-index 0s 0.4s; background: var(--beige-light); clip-path: polygon(0 0, 100% 0, 50% 100%); transform-style: preserve-3d; }
-        #env.open .flap { transform: rotateX(180deg); z-index: 0; background: var(--beige-dark); }
-        
-        .flap .ini { position: absolute; top: 14%; left: 0; right: 0; display: flex; justify-content: center; gap: 2.2rem; font-size: calc(var(--w)*0.15); color: var(--gold2); transition: opacity 0.3s; }
-        #env.open .flap .ini { opacity: 0; }
-
-        #seal { position: absolute; left: 50%; top: 58%; width: 76px; height: 76px; margin: -38px 0 0 -38px; z-index: 6; border: 0; padding: 0; cursor: pointer; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--gold1), var(--gold2) 60%, var(--gold3)); box-shadow: 0 4px 10px rgba(0, 0, 0, .25), inset 0 0 0 4px rgba(255, 255, 255, .2), inset 0 -3px 6px rgba(0, 0, 0, .2); display: flex; flex-direction: column; align-items: center; justify-content: center; animation: pulse 2.2s ease-in-out infinite; transition: transform 0.7s cubic-bezier(.5, 0, .9, .5), opacity 0.7s; }
-        #seal.drop { animation: none; transform: translateY(260px) rotate(40deg); opacity: 0; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.05); filter: brightness(1.1); } }
-        
-        #seal svg { width: 34px; height: 34px; }
-        #seal span { font-size: 14px; letter-spacing: 1px; color: #fff; margin-top: -2px; font-weight: bold; }
-
-        .hint { position: absolute; bottom: -44px; left: 0; right: 0; text-align: center; font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.7; transition: opacity 0.3s; color: var(--ink); }
-        #env.open .hint { opacity: 0; }
-    </style>
+    
 </head>
 
 <body class="bg-gray-300 min-h-screen flex items-center justify-center p-0 sm:p-4 text-cafeOscuro font-clasica locked">
@@ -111,41 +54,55 @@
             <!-- Botón del sello con el SVG -->
             <button id="seal" aria-label="Abrir invitación">
                 <img src="img/flor.png" alt="" class=" h-12 ">
-                
+
             </button>
             <div class="hint font-sans">Toca el sello</div>
         </div>
     </div>
 
     <!-- TARJETA PRINCIPAL (Efecto Carta/Pergamino) -->
-    <main class="bg-textura relative w-full max-w-md shadow-2xl overflow-hidden border-4 sm:border-8 border-crema outline outline-1 outline-dorado/30">
+    <main
+        class="bg-textura relative w-full max-w-md shadow-2xl overflow-hidden border-4 sm:border-8 border-crema outline outline-1 outline-dorado/30">
 
         <!-- FLORES ESQUINA SUPERIOR IZQUIERDA -->
-        <img src="img/1790887377737.png" alt="" class="absolute top-0 left-0 w-28 sm:w-36 opacity-75 mix-blend-multiply filter sepia-[0.5] z-10 -translate-x-3 -translate-y-3 pointer-events-none">
+        <img src="img/1790887377737.png" alt=""
+            class="absolute top-0 left-0 w-28 sm:w-36 opacity-75 mix-blend-multiply filter sepia-[0.5] z-10 -translate-x-3 -translate-y-3 pointer-events-none">
 
         <!-- FLORES ESQUINA SUPERIOR DERECHA -->
-        <img src="img/1790887377737.png" alt="" class="absolute top-0 right-0 w-28 sm:w-36 opacity-75 mix-blend-multiply filter sepia-[0.5] z-10 translate-x-3 -translate-y-3 scale-x-[-1] pointer-events-none">
+        <img src="img/1790887377737.png" alt=""
+            class="absolute top-0 right-0 w-28 sm:w-36 opacity-75 mix-blend-multiply filter sepia-[0.5] z-10 translate-x-3 -translate-y-3 scale-x-[-1] pointer-events-none">
 
         <!-- Borde interior elegante -->
         <div class="absolute inset-2 border border-dorado/20 z-10 pointer-events-none"></div>
 
         <!-- CONTENIDO DE LA INVITACIÓN -->
         <header class="relative z-20 flex flex-col items-center pt-24 pb-8 px-6 sm:px-8 text-center reveal">
-            
-            <h2 class="font-sans tracking-[0.3em] uppercase text-[11px] sm:text-xs mb-6 text-sepia font-medium">
-                Nos Casamos
+
+            <h2 class="font-sans tracking-[0.3em] uppercase text-[15px] sm:text-xs mb-6 text-sepia font-medium">
+                ¡Nos Casamos!
             </h2>
 
             <!-- FOTO DE LOS NOVIOS (Estilo arco sutil) -->
-            <div class="relative w-48 sm:w-56 h-64 sm:h-72 mb-6 shadow-md rounded-t-[3rem] rounded-b-lg overflow-hidden border-2 border-dorado/30">
-                <img src="img/1000918048.jpeg" alt="Diego e Itzel" class="object-cover w-full h-full opacity-95 filter sepia-[0.2]">
+            <div
+                class="relative w-48 sm:w-56 h-64 sm:h-72 mb-6 shadow-md rounded-t-[3rem] rounded-b-lg overflow-hidden border-2 border-dorado/30">
+                <img src="img/1000918048.jpeg" alt="Diego e Itzel"
+                    class="object-cover w-full h-full opacity-95 filter sepia-[0.2]">
             </div>
 
-            <!-- NOMBRES -->
-            <h1 class="font-cursiva text-5xl sm:text-6xl text-cafeOscuro leading-tight mb-4">
-                Diego <span class="text-dorado text-3xl mx-1">&</span> Itzel
-            </h1>
+            <!-- NOMBRES RESPONSIVOS CON ANIMACIÓN DE ESCRITURA -->
+            <h1 class="font-cursiva flex flex-col w-full max-w-[260px] sm:max-w-[320px] mx-auto leading-none mb-8 -mt-2 sm:-mt-6 -rotate-6 transform text-cafeOscuro">
 
+                <!-- Diego: Arriba y a la izquierda -->
+                <span class="block text-left text-[75px] sm:text-[90px] -mb-2 sm:-mb-4 relative z-20 anim-escribir retraso-1 pr-4">Diego</span>
+
+                <!-- &: En medio, centrado y por encima -->
+                <span class="block text-center text-dorado text-4xl sm:text-5xl relative z-10  anim-escribir retraso-2">&</span>
+
+                <!-- Itzel: Abajo y a la derecha -->
+                <span class="block text-right text-[75px] sm:text-[90px] -mt-6 sm:-mt-10 relative z-10 anim-escribir retraso-3 pr-4">Itzel</span>
+
+            </h1>
+            
             <div class="flex items-center justify-center w-32 my-3 text-sepia opacity-70">
                 <div class="h-px bg-gradient-to-r from-transparent via-sepia to-sepia flex-1"></div>
                 <span class="mx-2 text-dorado text-sm">❦</span>
@@ -154,67 +111,109 @@
 
             <!-- VERSÍCULO / LEMA -->
             <p class="font-clasica text-base sm:text-lg leading-relaxed text-cafeOscuro/90 px-2 italic mt-2">
-                “Mejores son dos que uno, porque obtienen más fruto de su esfuerzo. Si alguno de ellos cae, el otro puede ayudar a su compañero a levantarse.”
+                “Mejores son dos que uno, porque obtienen más fruto de su esfuerzo. Si alguno de ellos cae, el otro
+                puede ayudar a su compañero a levantarse.”
             </p>
             <span class="text-xs uppercase tracking-widest text-sepia mt-2 font-sans">Eclesiastés 4:9, 10</span>
         </header>
 
         <!-- TARJETA: DE LOS NOVIOS -->
         <section class="relative z-20 px-6 sm:px-8 py-6 text-center reveal">
-            <h3 class="font-sans tracking-[0.2em] uppercase text-[11px] text-sepia font-semibold mb-3">De los Novios</h3>
+            <h3 class="font-sans tracking-[0.2em] uppercase text-[11px] text-sepia font-semibold mb-3">De los Novios
+            </h3>
             <p class="font-clasica text-base sm:text-lg text-cafeOscuro leading-relaxed">
-                "Con la bendición de Jehová y con el amor que hemos cultivado, hemos decidido unir nuestras vidas en matrimonio. Nos encantaría contar con tu presencia en este día tan especial."
+                "Con la bendición de Jehová y con el amor que hemos cultivado, hemos decidido unir nuestras vidas en
+                matrimonio. Nos encantaría contar con tu presencia en este día tan especial."
             </p>
         </section>
 
-        <!-- CARRUSEL DE IMÁGENES (16:9) -->
-        <section class="relative z-20 w-full aspect-video overflow-hidden border-y border-dorado/30 my-4 reveal">
-            <div id="carousel-inner" class="flex w-full h-full transition-transform duration-500 ease-in-out">
-                <img src="img/1000918037.jpg.jpeg" class="w-full h-full object-cover shrink-0" alt="Foto">
-                <img src="img/1000918039.jpg.jpeg" class="w-full h-full object-cover shrink-0" alt="Foto">
-                <img src="img/1000918040.jpg.jpeg" class="w-full h-full object-cover shrink-0" alt="Foto">
-                <img src="img/1000918042.jpg.jpeg" class="w-full h-full object-cover shrink-0" alt="Foto">
-                <img src="img/1000918043.jpg.jpeg" class="w-full h-full object-cover shrink-0" alt="Foto">
-                <img src="img/1000918046.jpg.jpeg" class="w-full h-full object-cover shrink-0" alt="Foto">
-                <img src="img/1000918048.jpeg" class="w-full h-full object-cover shrink-0" alt="Foto">
-                <img src="img/1000918055.jpg.jpeg" class="w-full h-full object-cover shrink-0" alt="Foto">
-                <img src="img/1000918057.jpg.jpeg" class="w-full h-full object-cover shrink-0" alt="Foto">
-                <img src="img/1000918059.jpg.jpeg" class="w-full h-full object-cover shrink-0" alt="Foto">
+        <!-- CARRUSEL DE IMÁGENES (Estilo Polaroid Stack - Más Grandes) -->
+        <section class="relative z-20 w-full h-[450px] sm:h-[550px] flex items-center justify-center my-6 reveal overflow-visible">
+            
+            <!-- Flecha Izquierda -->
+            <button id="btn-prev" class="absolute left-2 sm:left-4 z-50 p-2 sm:p-3 text-dorado hover:text-cafeOscuro transition-colors bg-white/70 rounded-full shadow-md backdrop-blur-sm focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+
+            <!-- Pila de Polaroids (Más ancha) -->
+            <div id="polaroid-stack" class="relative w-full h-full max-w-[280px] sm:max-w-[340px]">
+                
+                <!-- Tarjetas con cursor-pointer añadido -->
+                <div class="polaroid-card cursor-pointer absolute top-1/2 left-1/2 w-full aspect-[3/4] bg-white p-2 sm:p-3 pb-12 sm:pb-16 shadow-2xl border border-gray-200 origin-center transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" style="transform: translate(-50%, -50%);">
+                    <img src="img/1000918037.jpg.jpeg" class="w-full h-full object-cover filter sepia-[0.1]" alt="Foto">
+                </div>
+                <div class="polaroid-card cursor-pointer absolute top-1/2 left-1/2 w-full aspect-[3/4] bg-white p-2 sm:p-3 pb-12 sm:pb-16 shadow-2xl border border-gray-200 origin-center transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" style="transform: translate(-50%, -50%);">
+                    <img src="img/1000918039.jpg.jpeg" class="w-full h-full object-cover filter sepia-[0.1]" alt="Foto">
+                </div>
+                <div class="polaroid-card cursor-pointer absolute top-1/2 left-1/2 w-full aspect-[3/4] bg-white p-2 sm:p-3 pb-12 sm:pb-16 shadow-2xl border border-gray-200 origin-center transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" style="transform: translate(-50%, -50%);">
+                    <img src="img/1000918040.jpg.jpeg" class="w-full h-full object-cover filter sepia-[0.1]" alt="Foto">
+                </div>
+                <div class="polaroid-card cursor-pointer absolute top-1/2 left-1/2 w-full aspect-[3/4] bg-white p-2 sm:p-3 pb-12 sm:pb-16 shadow-2xl border border-gray-200 origin-center transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" style="transform: translate(-50%, -50%);">
+                    <img src="img/1000918042.jpg.jpeg" class="w-full h-full object-cover filter sepia-[0.1]" alt="Foto">
+                </div>
+                <div class="polaroid-card cursor-pointer absolute top-1/2 left-1/2 w-full aspect-[3/4] bg-white p-2 sm:p-3 pb-12 sm:pb-16 shadow-2xl border border-gray-200 origin-center transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" style="transform: translate(-50%, -50%);">
+                    <img src="img/1000918043.jpg.jpeg" class="w-full h-full object-cover filter sepia-[0.1]" alt="Foto">
+                </div>
+                <div class="polaroid-card cursor-pointer absolute top-1/2 left-1/2 w-full aspect-[3/4] bg-white p-2 sm:p-3 pb-12 sm:pb-16 shadow-2xl border border-gray-200 origin-center transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" style="transform: translate(-50%, -50%);">
+                    <img src="img/1000918046.jpg.jpeg" class="w-full h-full object-cover filter sepia-[0.1]" alt="Foto">
+                </div>
+                <div class="polaroid-card cursor-pointer absolute top-1/2 left-1/2 w-full aspect-[3/4] bg-white p-2 sm:p-3 pb-12 sm:pb-16 shadow-2xl border border-gray-200 origin-center transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" style="transform: translate(-50%, -50%);">
+                    <img src="img/1000918048.jpeg" class="w-full h-full object-cover filter sepia-[0.1]" alt="Foto">
+                </div>
+                <div class="polaroid-card cursor-pointer absolute top-1/2 left-1/2 w-full aspect-[3/4] bg-white p-2 sm:p-3 pb-12 sm:pb-16 shadow-2xl border border-gray-200 origin-center transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" style="transform: translate(-50%, -50%);">
+                    <img src="img/1000918055.jpg.jpeg" class="w-full h-full object-cover filter sepia-[0.1]" alt="Foto">
+                </div>
+                <div class="polaroid-card cursor-pointer absolute top-1/2 left-1/2 w-full aspect-[3/4] bg-white p-2 sm:p-3 pb-12 sm:pb-16 shadow-2xl border border-gray-200 origin-center transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" style="transform: translate(-50%, -50%);">
+                    <img src="img/1000918057.jpg.jpeg" class="w-full h-full object-cover filter sepia-[0.1]" alt="Foto">
+                </div>
+                <div class="polaroid-card cursor-pointer absolute top-1/2 left-1/2 w-full aspect-[3/4] bg-white p-2 sm:p-3 pb-12 sm:pb-16 shadow-2xl border border-gray-200 origin-center transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" style="transform: translate(-50%, -50%);">
+                    <img src="img/1000918059.jpg.jpeg" class="w-full h-full object-cover filter sepia-[0.1]" alt="Foto">
+                </div>
+
             </div>
-            <div id="carousel-dots" class="absolute bottom-3 left-0 right-0 flex justify-center space-x-2"></div>
+
+            <!-- Flecha Derecha -->
+            <button id="btn-next" class="absolute right-2 sm:right-4 z-50 p-2 sm:p-3 text-dorado hover:text-cafeOscuro transition-colors bg-white/70 rounded-full shadow-md backdrop-blur-sm focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
         </section>
 
         <!-- DIVISOR BOTÁNICO SVG -->
         <div class="relative z-20 flex justify-center my-6 text-sepia opacity-70 reveal">
             <svg width="100" height="25" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 15 Q 30 0, 60 15 T 110 15" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                <path d="M25 10 C 25 5, 35 5, 35 10 C 35 15, 25 15, 25 10 Z" fill="currentColor"/>
-                <path d="M45 19 C 45 24, 35 24, 35 19 C 35 14, 45 14, 45 19 Z" fill="currentColor"/>
-                <path d="M75 10 C 75 5, 85 5, 85 10 C 85 15, 75 15, 75 10 Z" fill="currentColor"/>
-                <path d="M95 19 C 95 24, 85 24, 85 19 C 85 14, 95 14, 95 19 Z" fill="currentColor"/>
+                <path d="M10 15 Q 30 0, 60 15 T 110 15" stroke="currentColor" stroke-width="1.2"
+                    stroke-linecap="round" />
+                <path d="M25 10 C 25 5, 35 5, 35 10 C 35 15, 25 15, 25 10 Z" fill="currentColor" />
+                <path d="M45 19 C 45 24, 35 24, 35 19 C 35 14, 45 14, 45 19 Z" fill="currentColor" />
+                <path d="M75 10 C 75 5, 85 5, 85 10 C 85 15, 75 15, 75 10 Z" fill="currentColor" />
+                <path d="M95 19 C 95 24, 85 24, 85 19 C 85 14, 95 14, 95 19 Z" fill="currentColor" />
             </svg>
         </div>
 
         <!-- TARJETA: DISCURSO -->
-        <section class="relative z-20 px-6 py-8 text-center bg-white/20 backdrop-blur-sm mx-4 sm:mx-6 rounded-t-[3rem] border border-dorado/20 shadow-sm mb-8 reveal">
+        <section
+            class="relative z-20 px-6 py-8 text-center bg-white/20 backdrop-blur-sm mx-4 sm:mx-6 rounded-t-[3rem] border border-dorado/20 shadow-sm mb-8 reveal">
             <img src="img/altavoz.png" alt="Discurso" class="w-12 h-12 mx-auto mb-3 opacity-80">
             <h3 class="font-sans tracking-[0.2em] uppercase text-[11px] text-sepia font-semibold mb-2">Discurso</h3>
-            <h4 class="font-cursiva text-3xl sm:text-4xl text-cafeOscuro mb-2">Salón del Reino de los Testigos de Jehová, Ocotlán</h4>
+            <h4 class="font-cursiva text-3xl sm:text-4xl text-cafeOscuro mb-2">Salón del Reino de los Testigos de
+                Jehová, Ocotlán</h4>
             <p class="font-clasica text-sm sm:text-md text-cafeOscuro/80 mb-6 leading-relaxed">
                 Calle Prolongación Gregorio Gómez #12<br>
                 Entre Guanajuato y Matamoros<br>
                 Col. Fraccionamiento El Bajío<br>
                 71510 Ocotlán de Morelos, Oax.
             </p>
-            <a href="https://maps.app.goo.gl/EYmnZbvwQZ8A8tCg9" target="_blank" class="inline-block bg-sepia text-crema font-sans uppercase text-[10px] tracking-[0.15em] px-6 py-2.5 rounded-full shadow-sm hover:bg-cafeOscuro transition-colors mb-6">
+            <a href="https://maps.app.goo.gl/EYmnZbvwQZ8A8tCg9" target="_blank"
+                class="inline-block bg-sepia text-crema font-sans uppercase text-[10px] tracking-[0.15em] px-6 py-2.5 rounded-full shadow-sm hover:bg-cafeOscuro transition-colors mb-6">
                 Ver Ubicación
             </a>
-            
+
             <div class="border-t border-dorado/20 pt-6">
                 <h3 class="font-sans tracking-[0.2em] uppercase text-[11px] text-sepia font-semibold mb-1">Cuándo</h3>
                 <p class="font-clasica text-lg text-cafeOscuro">Lunes, 7 de diciembre de 2026</p>
                 <p class="font-clasica text-md text-cafeOscuro/80 mb-5">13:00 hrs.</p>
-                <button onclick="descargarCalendario()" class="inline-block border border-sepia text-cafeOscuro font-sans uppercase text-[10px] tracking-[0.15em] px-6 py-2.5 rounded-full hover:bg-sepia/10 transition-colors">
+                <button onclick="descargarCalendario()"
+                    class="inline-block border border-sepia text-cafeOscuro font-sans uppercase text-[10px] tracking-[0.15em] px-6 py-2.5 rounded-full hover:bg-sepia/10 transition-colors">
                     Agendar en Calendario
                 </button>
             </div>
@@ -222,7 +221,8 @@
 
         <!-- TARJETA: RECEPCIÓN -->
         <!-- TARJETA: RECEPCIÓN -->
-        <section class="relative z-20 px-6 py-8 text-center bg-white/20 backdrop-blur-sm mx-4 sm:mx-6 rounded-t-[3rem] border border-dorado/20 shadow-sm mb-8 reveal">
+        <section
+            class="relative z-20 px-6 py-8 text-center bg-white/20 backdrop-blur-sm mx-4 sm:mx-6 rounded-t-[3rem] border border-dorado/20 shadow-sm mb-8 reveal">
             <img src="img/arco-de-la-boda.png" alt="Recepción" class="w-12 h-12 mx-auto mb-3 opacity-80">
             <h3 class="font-sans tracking-[0.2em] uppercase text-[11px] text-sepia font-semibold mb-2">Recepción</h3>
             <h4 class="font-cursiva text-3xl sm:text-4xl text-cafeOscuro mb-1">Quinta Elisa</h4>
@@ -230,7 +230,8 @@
             <p class="font-clasica text-sm sm:text-md text-cafeOscuro/80 mb-6 mt-2">
                 C. de Industria 323, Morelos, Ocotlán de Morelos, Oax.
             </p>
-            <a href="https://maps.app.goo.gl/wmQdr2dVUrjr4bb17" target="_blank" class="inline-block bg-sepia text-crema font-sans uppercase text-[10px] tracking-[0.15em] px-6 py-2.5 rounded-full shadow-sm hover:bg-cafeOscuro transition-colors mb-6">
+            <a href="https://maps.app.goo.gl/wmQdr2dVUrjr4bb17" target="_blank"
+                class="inline-block bg-sepia text-crema font-sans uppercase text-[10px] tracking-[0.15em] px-6 py-2.5 rounded-full shadow-sm hover:bg-cafeOscuro transition-colors mb-6">
                 Ver Ubicación
             </a>
 
@@ -239,7 +240,8 @@
                 <h3 class="font-sans tracking-[0.2em] uppercase text-[11px] text-sepia font-semibold mb-1">Cuándo</h3>
                 <p class="font-clasica text-lg text-cafeOscuro">Lunes, 7 de diciembre de 2026</p>
                 <p class="font-clasica text-md text-cafeOscuro/80 mb-5">14:30 hrs.</p>
-                <button onclick="descargarCalendario()" class="inline-block border border-sepia text-cafeOscuro font-sans uppercase text-[10px] tracking-[0.15em] px-6 py-2.5 rounded-full hover:bg-sepia/10 transition-colors">
+                <button onclick="descargarCalendario()"
+                    class="inline-block border border-sepia text-cafeOscuro font-sans uppercase text-[10px] tracking-[0.15em] px-6 py-2.5 rounded-full hover:bg-sepia/10 transition-colors">
                     Agendar en Calendario
                 </button>
             </div>
@@ -247,24 +249,32 @@
 
         <!-- CÓDIGO DE VESTIMENTA -->
         <section class="relative z-20 px-6 mb-8 reveal">
-            <h3 class="font-sans tracking-[0.2em] uppercase text-[11px] text-sepia font-semibold mb-3 text-center">Código de Vestimenta</h3>
+            <h3 class="font-sans tracking-[0.2em] uppercase text-[11px] text-sepia font-semibold mb-3 text-center">
+                Código de Vestimenta</h3>
             <div class="relative w-full shadow-md overflow-hidden rounded-xl border-2 border-dorado/30">
-                <img src="img/vestimenta.jpeg" alt="Código de vestimenta" class="w-full h-auto object-cover filter sepia-[0.1]">
+                <img src="img/vestimenta.jpeg" alt="Código de vestimenta"
+                    class="w-full h-auto object-cover filter sepia-[0.1]">
             </div>
         </section>
 
         <!-- MESA DE REGALOS -->
         <section class="relative z-20 px-6 mb-8 reveal">
-            <div class="bg-white/20 backdrop-blur-sm rounded-xl p-5 shadow-sm border border-dorado/20 flex items-center gap-4">
+            <div
+                class="bg-white/20 backdrop-blur-sm rounded-xl p-5 shadow-sm border border-dorado/20 flex items-center gap-4">
                 <div class="w-1/3 flex justify-center text-sepia">
-                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
                     </svg>
                 </div>
                 <div class="w-2/3 text-left">
-                    <h3 class="font-sans tracking-[0.2em] uppercase text-[11px] text-sepia font-semibold mb-1">Mesa de Regalos</h3>
+                    <h3 class="font-sans tracking-[0.2em] uppercase text-[11px] text-sepia font-semibold mb-1">Mesa de
+                        Regalos</h3>
                     <p class="font-clasica text-xs sm:text-sm text-cafeOscuro leading-relaxed">
-                        Si deseas tener un detalle con nosotros, de manera opcional agradeceremos mucho una aportación en efectivo para nuestro comienzo.
+                        Si deseas tener un detalle con nosotros, de manera opcional agradeceremos mucho una aportación
+                        en efectivo para nuestro comienzo.
                     </p>
                 </div>
             </div>
@@ -282,55 +292,69 @@
 
         <!-- CONFIRMACIÓN Y CONTADOR LÍMITE (15 Nov) -->
         <section class="relative z-20 px-6 mb-10 text-center reveal">
-            <h3 class="font-sans tracking-[0.1em] uppercase text-[11px] text-sepia font-semibold mb-4">Favor de confirmar antes del:</h3>
-            
+            <h3 class="font-sans tracking-[0.1em] uppercase text-[11px] text-sepia font-semibold mb-4">Favor de
+                confirmar antes del:</h3>
+
             <div class="flex justify-center gap-2 mb-6 text-cafeOscuro" id="contador-limite">
-                <div class="flex flex-col items-center bg-crema/90 rounded-lg p-2 w-14 shadow-sm border border-dorado/20">
+                <div
+                    class="flex flex-col items-center bg-crema/90 rounded-lg p-2 w-14 shadow-sm border border-dorado/20">
                     <span class="font-sans font-bold text-4xl" id="lim-dias">00</span>
                     <span class="text-[9px] uppercase tracking-wider text-sepia">Días</span>
                 </div>
-                <div class="flex flex-col items-center bg-crema/90 rounded-lg p-2 w-14 shadow-sm border border-dorado/20">
+                <div
+                    class="flex flex-col items-center bg-crema/90 rounded-lg p-2 w-14 shadow-sm border border-dorado/20">
                     <span class="font-sans font-bold text-4xl" id="lim-horas">00</span>
                     <span class="text-[9px] uppercase tracking-wider text-sepia">Hrs</span>
                 </div>
-                <div class="flex flex-col items-center bg-crema/90 rounded-lg p-2 w-14 shadow-sm border border-dorado/20">
+                <div
+                    class="flex flex-col items-center bg-crema/90 rounded-lg p-2 w-14 shadow-sm border border-dorado/20">
                     <span class="font-sans font-bold text-4xl" id="lim-min">00</span>
                     <span class="text-[9px] uppercase tracking-wider text-sepia">Min</span>
                 </div>
             </div>
 
             <!-- Botón WhatsApp (Cambia el número 521234567890 por el real) -->
-            <a href="https://wa.me/529224174865?text=¡Hola!%20Confirmo%20mi%20asistencia%20a%20su%20boda." target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white font-sans uppercase text-[10px] tracking-[0.15em] px-6 py-3 rounded-full shadow-md hover:bg-[#1da851] transition-colors">
-                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            <a href="https://wa.me/529224174865?text=¡Hola!%20Confirmo%20mi%20asistencia%20a%20su%20boda."
+                target="_blank"
+                class="inline-flex items-center gap-2 bg-[#25D366] text-white font-sans uppercase text-[10px] tracking-[0.15em] px-6 py-3 rounded-full shadow-md hover:bg-[#1da851] transition-colors">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z" />
+                </svg>
                 Confirmar Asistencia
             </a>
         </section>
 
         <!-- CONTADOR DEL EVENTO (7 Dic) -->
         <section class="relative z-20 px-6 mb-12 text-center reveal">
-            <h3 class="font-sans tracking-[0.1em] uppercase text-[11px] text-sepia font-semibold mb-4">Prepárate, nos vemos en:</h3>
-            
+            <h3 class="font-sans tracking-[0.1em] uppercase text-[11px] text-sepia font-semibold mb-4">Prepárate, nos
+                vemos en:</h3>
+
             <div class="flex justify-center gap-2 text-cafeOscuro" id="contador-evento">
-                <div class="flex flex-col items-center bg-white/30 backdrop-blur-sm rounded-lg p-2.5 w-14 shadow-sm border border-dorado/20">
+                <div
+                    class="flex flex-col items-center bg-white/30 backdrop-blur-sm rounded-lg p-2.5 w-14 shadow-sm border border-dorado/20">
                     <span class="font-sans font-bold text-4xl" id="ev-dias">00</span>
                     <span class="text-[9px] uppercase tracking-wider text-sepia">Días</span>
                 </div>
-                <div class="flex flex-col items-center bg-white/30 backdrop-blur-sm rounded-lg p-2.5 w-14 shadow-sm border border-dorado/20">
+                <div
+                    class="flex flex-col items-center bg-white/30 backdrop-blur-sm rounded-lg p-2.5 w-14 shadow-sm border border-dorado/20">
                     <span class="font-sans font-bold text-4xl" id="ev-horas">00</span>
                     <span class="text-[9px] uppercase tracking-wider text-sepia">Hrs</span>
                 </div>
-                <div class="flex flex-col items-center bg-white/30 backdrop-blur-sm rounded-lg p-2.5 w-14 shadow-sm border border-dorado/20">
+                <div
+                    class="flex flex-col items-center bg-white/30 backdrop-blur-sm rounded-lg p-2.5 w-14 shadow-sm border border-dorado/20">
                     <span class="font-sans font-bold text-4xl" id="ev-min">00</span>
                     <span class="text-[9px] uppercase tracking-wider text-sepia">Min</span>
                 </div>
-                <div class="flex flex-col items-center bg-white/30 backdrop-blur-sm rounded-lg p-2.5 w-14 shadow-sm border border-dorado/20">
+                <div
+                    class="flex flex-col items-center bg-white/30 backdrop-blur-sm rounded-lg p-2.5 w-14 shadow-sm border border-dorado/20">
                     <span class="font-sans font-bold text-4xl" id="ev-seg">00</span>
                     <span class="text-[9px] uppercase tracking-wider text-sepia">Seg</span>
                 </div>
             </div>
         </section>
 
-        <!-- CIERRE TIPO CUENTO DE HADAS -->
+        <!-- CIERRE  -->
         <footer class="relative z-20 px-6 pb-16 text-center flex flex-col items-center reveal">
             <p class="font-clasica text-lg text-cafeOscuro mb-1">Con cariño,</p>
             <h2 class="font-cursiva text-5xl sm:text-6xl text-cafeOscuro mb-6">
@@ -338,16 +362,29 @@
             </h2>
             <div class="text-sepia opacity-60">
                 <svg class="w-28 h-8" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 15 L 45 15" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-                    <path d="M75 15 L 110 15" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-                    <rect x="55" y="10" width="10" height="10" transform="rotate(45 60 15)" fill="#C5A059"/>
-                    <circle cx="40" cy="15" r="1.5" fill="currentColor"/>
-                    <circle cx="80" cy="15" r="1.5" fill="currentColor"/>
+                    <path d="M10 15 L 45 15" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+                    <path d="M75 15 L 110 15" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+                    <rect x="55" y="10" width="10" height="10" transform="rotate(45 60 15)" fill="#C5A059" />
+                    <circle cx="40" cy="15" r="1.5" fill="currentColor" />
+                    <circle cx="80" cy="15" r="1.5" fill="currentColor" />
                 </svg>
             </div>
         </footer>
 
     </main>
+
+    <!-- VISOR DE FOTOS EN PANTALLA COMPLETA (Lightbox) -->
+        <div id="image-modal" class="fixed inset-0 z-[200] bg-black/95 hidden flex flex-col items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+            <!-- Botón de Cerrar (X) -->
+            <button id="close-modal" class="absolute top-6 right-6 text-white hover:text-dorado p-2 z-[210] focus:outline-none transition-colors">
+                <svg class="w-10 h-10 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <!-- Imagen mostrada -->
+            <img id="modal-img" src="" alt="Foto en grande" class="rounded-xl max-w-full max-h-[85vh] object-contain rounded-sm shadow-2xl pointer-events-none">
+            
+            <p class="text-white/60 font-sans tracking-widest uppercase text-[10px] mt-6">Toca afuera para cerrar</p>
+        </div>
 
     <!-- Conexión al JS y script de animaciones al hacer scroll -->
     <script src="index.js"></script>
@@ -361,7 +398,9 @@
                         entry.target.classList.add("active");
                     }
                 });
-            }, { threshold: 0.1 });
+            }, {
+                threshold: 0.1
+            });
 
             reveals.forEach(rev => observer.observe(rev));
         });

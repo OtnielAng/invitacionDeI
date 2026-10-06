@@ -1,86 +1,168 @@
-document.addEventListener('DOMContentLoaded', () => {
-  /* =========================================
-     LÓGICA DEL CARRUSEL (Autoplay, Dots y Swipe)
+/* =========================================
+     LÓGICA DEL CARRUSEL (Pila de Polaroids)
      ========================================= */
-  const carouselInner = document.getElementById('carousel-inner');
-  const images = carouselInner.querySelectorAll('img');
-  const dotsContainer = document.getElementById('carousel-dots');
-  let currentIndex = 0;
-  let slideInterval;
+  const stackContainer = document.getElementById('polaroid-stack');
   
-  let startX = 0;
-  let endX = 0;
+  if (stackContainer) {
+    const cards = stackContainer.querySelectorAll('.polaroid-card');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    
+    let currentIndex = 0;
+    let slideInterval;
+    let startX = 0;
+    let endX = 0;
 
-  // 1. Generar los puntos (dots)
-  images.forEach((_, index) => {
-    const dot = document.createElement('button');
-    dot.className = `w-2 h-2 rounded-full transition-colors duration-300 ${index === 0 ? 'bg-crema' : 'bg-crema/40'}`;
-    dot.onclick = () => {
-      goToSlide(index);
-      resetInterval();
-    };
-    dotsContainer.appendChild(dot);
-  });
+    /* --- LÓGICA PARA VER FOTOS EN PANTALLA COMPLETA --- */
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img');
+    const closeModalBtn = document.getElementById('close-modal');
 
-  const dots = dotsContainer.querySelectorAll('button');
+    // 1. Al hacer clic en una tarjeta de la pila
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        // Obtenemos la URL de la imagen clickeada
+        const imgSrc = card.querySelector('img').src;
+        modalImg.src = imgSrc;
+        
+        // Pausamos el carrusel de fondo para que no se mueva mientras vemos la foto
+        clearInterval(slideInterval);
 
-  function goToSlide(index) {
-    currentIndex = index;
-    carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-    dots.forEach((dot, i) => {
-      dot.className = `w-2 h-2 rounded-full transition-colors duration-300 ${i === index ? 'bg-crema' : 'bg-crema/40'}`;
+        // Mostramos la ventana negra
+        modal.classList.remove('hidden');
+        
+        // Un micro-retraso para que se vea la transición de entrada
+        setTimeout(() => {
+          modal.classList.remove('opacity-0');
+        }, 10);
+      });
     });
-  }
 
-  function startInterval() {
-    slideInterval = setInterval(() => {
-      let nextIndex = (currentIndex + 1) % images.length;
-      goToSlide(nextIndex);
-    }, 3500);
-  }
-
-  function resetInterval() {
-    clearInterval(slideInterval);
-    startInterval();
-  }
-
-  function handleSwipe() {
-    const umbral = 50;
-    const diferencia = startX - endX;
-
-    if (diferencia > umbral) {
-      let nextIndex = (currentIndex + 1) % images.length;
-      goToSlide(nextIndex);
-    } else if (diferencia < -umbral) {
-      let prevIndex = (currentIndex - 1 + images.length) % images.length;
-      goToSlide(prevIndex);
+    // 2. Función para cerrar el visor
+    function cerrarModal() {
+      modal.classList.add('opacity-0'); // Se desvanece
+      setTimeout(() => {
+        modal.classList.add('hidden'); // Se esconde completamente
+        modalImg.src = ""; // Limpiamos la foto
+        
+        // Reanudamos el carrusel donde se quedó
+        startInterval(); 
+      }, 300);
     }
+
+    // 3. Cerrar al picar la "X"
+    if (closeModalBtn) {
+      closeModalBtn.addEventListener('click', cerrarModal);
+    }
+
+    // 4. Cerrar al tocar en el fondo negro (fuera de la foto)
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        // Si tocamos el fondo y NO la foto directamente
+        if (e.target === modal) {
+          cerrarModal();
+        }
+      });
+    }
+    
+    // Función mágica que acomoda las fotos como una baraja
+    function updateCards() {
+      cards.forEach((card, index) => {
+        // Distancia relativa entre la tarjeta y la posición actual
+        let diff = (index - currentIndex + cards.length) % cards.length;
+        
+        if (diff === 0) {
+          // 1. Tarjeta al FRENTE (Activa)
+          card.style.zIndex = "30";
+          card.style.transform = "translate(-50%, -50%) scale(1) rotate(-2deg)";
+          card.style.opacity = "1";
+          card.style.pointerEvents = "auto";
+        } else if (diff === 1) {
+          // 2. Tarjeta justo ATRÁS (Asomándose a la derecha)
+          card.style.zIndex = "20";
+          card.style.transform = "translate(-40%, -48%) scale(0.95) rotate(4deg)";
+          card.style.opacity = "0.9";
+          card.style.pointerEvents = "none";
+        } else if (diff === 2) {
+          // 3. Tarjeta MÁS ATRÁS (Asomándose a la izquierda)
+          card.style.zIndex = "10";
+          card.style.transform = "translate(-60%, -52%) scale(0.9) rotate(-3deg)";
+          card.style.opacity = "0.7";
+          card.style.pointerEvents = "none";
+        } else if (diff === cards.length - 1) {
+          // 4. Tarjeta que acaba de SALIR (Vuela hacia la izquierda y se esfuma)
+          card.style.zIndex = "40"; // Se pone por encima de todas mientras vuela
+          card.style.transform = "translate(-150%, -60%) scale(0.8) rotate(-20deg)";
+          card.style.opacity = "0";
+          card.style.pointerEvents = "none";
+        } else {
+          // 5. El resto están Ocultas en el centro, invisibles, esperando su turno
+          card.style.zIndex = "0";
+          card.style.transform = "translate(-50%, -50%) scale(0.6)";
+          card.style.opacity = "0";
+          card.style.pointerEvents = "none";
+        }
+      });
+    }
+
+    function nextPolaroid() {
+      currentIndex = (currentIndex + 1) % cards.length;
+      updateCards();
+    }
+
+    function prevPolaroid() {
+      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+      updateCards();
+    }
+
+    // Eventos de los botones
+    btnNext.addEventListener('click', () => {
+      nextPolaroid();
+      resetInterval();
+    });
+
+    btnPrev.addEventListener('click', () => {
+      prevPolaroid();
+      resetInterval();
+    });
+
+    // Auto-reproducción cada 2 segundos (2000 ms)
+    function startInterval() {
+      slideInterval = setInterval(nextPolaroid, 4000);
+    }
+
+    function resetInterval() {
+      clearInterval(slideInterval);
+      startInterval();
+    }
+
+    // Soporte para deslizar (Swipe en celulares)
+    function handleSwipe() {
+      const umbral = 50;
+      const diferencia = startX - endX;
+      if (diferencia > umbral) {
+        nextPolaroid();
+        resetInterval();
+      } else if (diferencia < -umbral) {
+        prevPolaroid();
+        resetInterval();
+      }
+    }
+
+    stackContainer.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      clearInterval(slideInterval);
+    });
+    stackContainer.addEventListener('touchend', (e) => {
+      endX = e.changedTouches[0].clientX;
+      handleSwipe();
+      startInterval();
+    });
+
+    // Iniciar
+    updateCards();
+    startInterval();
   }
-
-  carouselInner.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    clearInterval(slideInterval);
-  });
-
-  carouselInner.addEventListener('touchend', (e) => {
-    endX = e.changedTouches[0].clientX;
-    handleSwipe();
-    startInterval();
-  });
-
-  carouselInner.addEventListener('mousedown', (e) => {
-    startX = e.clientX;
-    clearInterval(slideInterval);
-  });
-
-  carouselInner.addEventListener('mouseup', (e) => {
-    endX = e.clientX;
-    handleSwipe();
-    startInterval();
-  });
-
-  startInterval();
-});
 
 /* =========================================
    LÓGICA DE LOS CONTADORES
@@ -197,3 +279,13 @@ if (seal && env && intro) {
     setTimeout(() => intro.remove(), 3200); 
   });
 }
+
+// 4. Desaparece el fondo oscuro y desbloquea el scroll
+    setTimeout(() => {
+      intro.classList.add('out');
+      document.body.classList.remove('locked'); 
+      
+      // ESTE ES EL GATILLO QUE ARRANCA LA ANIMACIÓN
+      document.body.classList.add('empezar-magia');
+
+    }, 2300);
